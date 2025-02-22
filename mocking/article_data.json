@@ -1,0 +1,29 @@
+{
+    "articles": [
+        {
+            "author": "John Doe",
+            "title": "Some original news article",
+            "link": "https://original.com",
+            "references": [
+                "https://example.com/market-news",
+                "https://example.com/health-news"
+            ],
+            "content": "The stock market reached new record highs today, driven by strong earnings reports and positive economic data."
+        },
+        {
+            "link": "https://example.com/market-news",
+            "author": "Jane Smith",
+            "title": "Tech Innovations: The Future of AI",
+            "references": "",
+            "content": "Artificial Intelligence continues to evolve at a rapid pace, with new innovations being announced almost daily."
+        },
+        {
+            "link": "https://example.com/health-news",
+            "author": "Emily Johnson",
+            "title": "Health Update: New Advances in Medicine",
+            "references": "",
+            "content": "Recent advances in medical research are providing new hope for patients with chronic illnesses."
+        }
+    ],
+    "total_articles": 3
+}
