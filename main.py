@@ -84,7 +84,7 @@ GRAPH = {
 
 
 def add_node_to_index(link, node_id):
-    GRAPH["nodes"]["node_id"] = {"node_id": node_id, "link": link, "children": []}
+    GRAPH["nodes"][node_id] = {"node_id": node_id, "link": link, "children": []}
 
 
 add_node_to_index_tool = FunctionTool.from_defaults(
