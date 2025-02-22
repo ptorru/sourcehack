@@ -161,14 +161,14 @@ def main(original_link="https://original.com"):
         query_engine_tools,
         llm=llm,
         verbose=True,
-        max_iterations=50,
+        max_iterations=75,
         tracing=True,  # Enable tracing
         tracing_server_url="http://localhost:8000",  # Point to local Phoenix server
     )
 
     try:
         response = agent.chat(
-            f"You are a news article agent. Your job is to build a knowledge graph of news articles and their references. You can parse articles, and you have access to tools to manipulate the graph. Can you build me the knowledge graph for this article: {original_link}, please show the graph in the gui at the end."
+            f"You are a news article agent. Your job is to build a knowledge graph of news articles and their references. You can parse articles, and you have access to tools to manipulate the graph. Can you build me the knowledge graph for this article: {original_link}, please show the graph in the gui at the end. Do up to 3 childs per node, and up to 10 nodes in total."
         )
     except Exception as e:
         print("Error in agent chat: ", e)

@@ -25,7 +25,7 @@ def get_links_from_url(url):
     soup = BeautifulSoup(response.text, "html.parser")
     the_links = [a.get("href") for a in soup.find_all("a", href=True)]
 
-    return [link for link in the_links if link.startswith("http")]
+    return [link for link in the_links if link.startswith("http")][:3]
 
 
 print(get_links_from_url("https://firecrawl.dev"))
