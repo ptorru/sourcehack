@@ -9,7 +9,7 @@ link = st.text_input("Enter a link to a news article")
 
 if st.button("Get Article"):
     article = main(link)
-    if article == "Could not find the article":
+    if article.response == "Could not find the article":
         st.write("Could not find the article")
     else:
-        st.write(article)
+        st.write(article.response)

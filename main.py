@@ -1,4 +1,3 @@
-import llama_index
 import phoenix as px
 from os import environ
 from dotenv import load_dotenv
@@ -9,11 +8,14 @@ from llama_index.core import (
     load_index_from_storage,
     PromptTemplate,
 )
-from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
-from llama_index.core.tools import BaseTool, FunctionTool
+from llama_index.core.tools import FunctionTool
 import json
+from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
+from phoenix.otel import register
+
+from streamlit_d3graph import d3graph, vec2adjmat
 
 
 # The flow will be like this:
@@ -110,8 +112,30 @@ get_graph_tool = FunctionTool.from_defaults(
     name="get_graph",
 )
 
-from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
-from phoenix.otel import register
+
+def show_graph_gui():
+    sources = []
+    targets = []
+
+    for link, node in GRAPH["nodes"].items():
+        for child in node["children"]:
+            sources.append(link)
+            targets.append(child)
+
+    # Convert the vector into a adjacency matrix
+    adjmat = vec2adjmat(sources, targets)
+
+    # Initialize
+    d3 = d3graph()
+    d3.graph(adjmat)
+    d3.show()
+    return "Graph shown"
+
+
+show_graph_gui = FunctionTool.from_defaults(
+    fn=show_graph_gui,
+    name="show_graph_gui",
+)
 
 
 def main(original_link="https://original.com"):
@@ -125,6 +149,7 @@ def main(original_link="https://original.com"):
         add_node_to_index_tool,
         add_child_to_node_tool,
         get_graph_tool,
+        show_graph_gui,
     ]
     agent = ReActAgent.from_tools(
         query_engine_tools,
@@ -137,7 +162,7 @@ def main(original_link="https://original.com"):
 
     try:
         response = agent.chat(
-            f"You are a news article agent. Your job is to build a knowledge graph of news articles and their references. You can parse articles, and you have access to tools to manipulate the graph. Can you build me the knowledge graph for this article: {original_link}"
+            f"You are a news article agent. Your job is to build a knowledge graph of news articles and their references. You can parse articles, and you have access to tools to manipulate the graph. Can you build me the knowledge graph for this article: {original_link}, please show the graph in the gui at the end."
         )
     except Exception as e:
         print("Error in agent chat: ", e)
