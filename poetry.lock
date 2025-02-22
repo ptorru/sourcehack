@@ -975,6 +975,25 @@ files = [
 ]
 
 [[package]]
+name = "firecrawl"
+version = "1.12.0"
+description = "Python SDK for Firecrawl API"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "firecrawl-1.12.0-py3-none-any.whl", hash = "sha256:8070042e5dbe0fb4a6b093590880d480993673daf3278ca539baa82e3c3d88ad"},
+    {file = "firecrawl-1.12.0.tar.gz", hash = "sha256:cae553180a3904e1eed38603cb013376571373251c905092b27d5daed9eb0719"},
+]
+
+[package.dependencies]
+nest-asyncio = "*"
+pydantic = ">=2.10.3"
+python-dotenv = "*"
+requests = "*"
+websockets = "*"
+
+[[package]]
 name = "fonttools"
 version = "4.56.0"
 description = "Tools to manipulate font files"
@@ -5042,4 +5061,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.14"
-content-hash = "5f57afce53f37f3ede65ccc04e003cfe1201b0741fc7d6ac3a12da4ea870900e"
+content-hash = "fb4449cf0fd45a38a60f1efcb14e3ab9131e148ec7998dd1f8ef39a060ccd11c"

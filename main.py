@@ -17,6 +17,11 @@ from phoenix.otel import register
 
 from streamlit_d3graph import d3graph, vec2adjmat
 
+from firecrawl import FirecrawlApp
+
+
+from debug_fire import get_links_from_url
+
 
 # The flow will be like this:
 # 1) user provides a link to the original article
@@ -37,6 +42,7 @@ react_system_prompt = PromptTemplate(react_system_header_str)
 load_dotenv()
 
 OPENAI_API_KEY = environ["OPENAI_API_KEY"]
+FIRECRAWL_API_KEY = environ["FIRECRAWL_API_KEY"]
 
 
 def multiply(a: int, b: int) -> int:
@@ -56,14 +62,14 @@ add_tool = FunctionTool.from_defaults(fn=add)
 
 
 def article_parser(link: str) -> dict:
-    print(f"This was the link given {link}")
-    # NEed to load the dummy index, then return the data for the matching article
-    dummy = json.load(open("mocking/article_data.json"))
-    for article in dummy["articles"]:
-        if article["link"] == link:
-            return article
+    # Extract the references from the article
+    try:
+        references = get_links_from_url(link)
+    except Exception as e:
+        print("Error in article_parser: ", e)
+        references = "Cout not extract references"
 
-    return "Could not find the article"
+    return references
 
 
 article_parser_tool = FunctionTool.from_defaults(
