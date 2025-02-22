@@ -69,8 +69,6 @@ article_parser_tool = FunctionTool.from_defaults(
     name="article_parser",
 )
 
-original_link = "https://original.com"
-
 
 GRAPH = {
     "nodes": {
@@ -116,7 +114,7 @@ from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
 from phoenix.otel import register
 
 
-def main():
+def main(original_link="https://original.com"):
     tracer_provider = register()
     LlamaIndexInstrumentor().instrument(tracer_provider=tracer_provider)
     llm = OpenAI(model="gpt-4")
@@ -146,7 +144,7 @@ def main():
     else:
         print(str(response))
 
-    print("The graph is: ", get_graph())
+    return response
 
 
 if __name__ == "__main__":
